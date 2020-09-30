@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class Alerts : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class Alerts : MonoBehaviour
     {
         // Wait for the new scene to load, then set the message in the new scene.
         yield return SceneManager.LoadSceneAsync("Alerts", LoadSceneMode.Additive);
-        GameObject.FindGameObjectWithTag("AlertTitle").transform.GetComponent<Text>().text = title;
-        GameObject.FindGameObjectWithTag("AlertMessage").transform.GetComponent<Text>().text = message;
+        GameObject.FindGameObjectWithTag("AlertTitle").transform.GetComponent<TextMeshProUGUI>().text = title;
+        GameObject.FindGameObjectWithTag("AlertMessage").transform.GetComponent<TextMeshProUGUI>().text = message;
     }
 }

@@ -5,13 +5,14 @@ using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 public class Register : MonoBehaviour
 {
     public Transform registerPanel;
-    public InputField username;
-    public InputField password;
-    public InputField confirmPassword;
-    public InputField email;
+    public TMP_InputField username;
+    public TMP_InputField password;
+    public TMP_InputField confirmPassword;
+    public TMP_InputField email;
     public void CreateAccount()
     {
         if (password.text.Length < 3 || confirmPassword.text.Length < 3)

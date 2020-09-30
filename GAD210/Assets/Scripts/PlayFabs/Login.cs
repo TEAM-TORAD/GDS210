@@ -5,12 +5,13 @@ using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Login : MonoBehaviour
 {
     public GameObject loginPanel;
-    public InputField username;
-    public InputField password;
+    public TMP_InputField username;
+    public TMP_InputField password;
     public string levelToLoad;
     public void LoginUser()
     {
