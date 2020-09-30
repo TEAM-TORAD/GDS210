@@ -27,6 +27,11 @@ public class Login : MonoBehaviour
             StartCoroutine(a.LoadSceneAsync("Login Error", error.ErrorMessage));
         });
     }
+    public void OpenResetPasswordPanel()
+    {
+        loginPanel.SetActive(false);
+        SceneManager.LoadSceneAsync("ResetPassword", LoadSceneMode.Additive);
+    }
     public void CloseLoginPanel()
     {
         UIManager.startPanel.SetActive(true);
