@@ -22,7 +22,7 @@ public class Login : MonoBehaviour
         request.Password = password.text;
 
         PlayFabClientAPI.LoginWithPlayFab(request, result => {
-            GetStatistics();
+            GetVerificationUserData(result.PlayFabId);
             loginPanel.SetActive(false);
         }, error => {
             submissionButton.interactable = true;
@@ -50,8 +50,42 @@ public class Login : MonoBehaviour
             error => Debug.LogError(error.GenerateErrorReport())
         );
     }
+    void GetVerificationUserData(string myPlayFabeId)
+    {
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest()
+        {
+            PlayFabId = myPlayFabeId,
+            Keys = null
+        }, result => {
+            if (result.Data == null || !result.Data.ContainsKey("verified")) 
+            {
+                UIManager.startPanel.SetActive(true);
+                Alerts a = new Alerts();
+                StartCoroutine(a.LoadSceneAsync("Error!", "No player verification data on server! Please contact admin at team.torad@gmail.com"));
+                SceneManager.UnloadSceneAsync("Login");
+                PlayerPrefs.DeleteAll();
+            }
+            else
+            {
+                // Send unverified user to verification scene
+                if(result.Data["verified"].Value == "false")
+                {
+                    SceneManager.UnloadSceneAsync("Login");
+                    SceneManager.LoadSceneAsync("VerifyAccount", LoadSceneMode.Additive);
+                }
+                else
+                {
+                    SceneManager.LoadSceneAsync(levelToLoad, LoadSceneMode.Additive);
+                }
+            }
+        }, (error) => {
 
-    void OnGetStatistics(GetPlayerStatisticsResult result)
+            Alerts a = new Alerts();
+            StartCoroutine(a.LoadSceneAsync("Error checking account verification!", error.ErrorMessage));
+        });
+    }
+
+    void OnGetStatistics(GetPlayerStatisticsResult result) // Not used, kept for reference on using player stats
     {
         foreach (var eachStat in result.Statistics)
         {

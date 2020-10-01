@@ -10,24 +10,71 @@ using TMPro;
 public class VerifyAccount : MonoBehaviour
 {
     public TMP_InputField code;
-    public string sceneToLoad = "";
+    public string levelToLoad = "";
     public void SubmitCode()
     {
         if(code.text.Length > 0)
         {
-            PlayFabClientAPI.GetPlayerStatistics(
-                new GetPlayerStatisticsRequest(),
-                OnGetStatistics,
-                error => Debug.LogError(error.GenerateErrorReport())
-            );
+            PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest(), GetVerificationCodeUserData,
+            error =>
+            {
+                Alerts a = new Alerts();
+                StartCoroutine(a.LoadSceneAsync("Error!", error.ErrorMessage));
+            });
         }
         else
         {
             Alerts a = new Alerts();
-            StartCoroutine(a.LoadSceneAsync("Error!", "You need to enter teh verification-code that was sent to the email you entered when registring this account. Check your junkmail if you can't find it."));
+            StartCoroutine(a.LoadSceneAsync("Error!", "You need to enter the verification-code that was sent to the email you entered when registring this account. Check your junkmail if you can't find it."));
         }
     }
+    void VerifyAccountUpdateUserData()
+    {
+        PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest()
+        {
+            Data = new Dictionary<string, string>() {
+            {"verified", "true"}
+        }
+        },
+        result =>
+        {
+            SceneManager.LoadSceneAsync(levelToLoad, LoadSceneMode.Additive);
+            Alerts a = new Alerts();
+            StartCoroutine(a.LoadSceneAsync("Verification Success!", "Your account is now successfully verified. Welcome to TORAD!"));
+            SceneManager.UnloadSceneAsync("VerifyAccount");
+        },
+        error => {
+            Alerts newAlert = new Alerts(); StartCoroutine(newAlert.LoadSceneAsync("Error veryfying account!", error.ErrorMessage));
+        });
+    }
+    void GetVerificationCodeUserData(GetAccountInfoResult initResult)
+    {
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest()
+        {
+            PlayFabId = initResult.AccountInfo.PlayFabId,
+            Keys = null
+        }, result => {
+            if (result.Data == null || !result.Data.ContainsKey("verificationCode")) Debug.Log("No verification code found for "+ initResult.AccountInfo.Username + " on the server.");
+            else
+            {
+                // Check if verification code is matching
+                if (result.Data["verificationCode"].Value == code.text)
+                {
+                    // Matching codes
+                    VerifyAccountUpdateUserData();
+                }
+                else
+                {
+                    Alerts a = new Alerts();
+                    StartCoroutine(a.LoadSceneAsync("Verification code missmatch!", "The code you entered is incorrect! Please check your email for a verification code."));
+                }
+            }
+        }, (error) => {
 
+            Alerts a = new Alerts();
+            StartCoroutine(a.LoadSceneAsync("Error checking account verification!", error.ErrorMessage));
+        });
+    }
     void OnGetStatistics(GetPlayerStatisticsResult result)
     {
         foreach (var eachStat in result.Statistics)
@@ -48,7 +95,57 @@ public class VerifyAccount : MonoBehaviour
     }
     public void ResendCode()
     {
-        Debug.Log("Function to resend code is not created yet.");
+        PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest(), initResult => 
+        {
+            string thisPlayFabId = initResult.AccountInfo.PlayFabId;
+            string thisEmail = initResult.AccountInfo.PrivateInfo.Email;
+            string thisUser = initResult.AccountInfo.Username;
+            PlayFabClientAPI.GetUserData(new GetUserDataRequest()
+            {
+                PlayFabId = thisPlayFabId,
+                Keys = null
+            }, result => {
+                if (result.Data == null || !result.Data.ContainsKey("verificationCode"))
+                {
+                    UIManager.startPanel.SetActive(true);
+                    Alerts a = new Alerts();
+                    StartCoroutine(a.LoadSceneAsync("Error!", "No verification code exists on server! Please contact admin at team.torad@gmail.com"));
+                    SceneManager.UnloadSceneAsync("Login");
+                    PlayerPrefs.DeleteAll();
+                }
+                else
+                {
+                    // Send unverified user to verification scene
+                    string thisCode = result.Data["verificationCode"].Value;
+
+                    //Send an email to prompt the user to verify their email address.
+                    SendEmail registerEmail = new SendEmail();
+                    registerEmail.recipientEmail = thisEmail;
+                    registerEmail.subject = "Verify account for TORAD";
+                    registerEmail.message = "Welcome to TORAD " + thisUser +
+                    ". You need to verify your account to be able to login.\nEnter this code in the game to verify your account: " +
+                    thisCode;
+
+                    registerEmail.RegistrationEmail();
+
+                    Alerts a = new Alerts();
+                    StartCoroutine(a.LoadSceneAsync("Verification Email Sent", "Please check your email, " + thisEmail + ", for a verification code."));
+
+                }
+            }, (error) => {
+
+                Alerts a = new Alerts();
+                StartCoroutine(a.LoadSceneAsync("Error checking account verification!", error.ErrorMessage));
+            });
+        },
+        error =>
+        {
+            Alerts a = new Alerts();
+            StartCoroutine(a.LoadSceneAsync("Error!", error.ErrorMessage));
+        });
+
+
+        
     }
     public void CloseVerificationPanel(bool openStartPanel)
     {
@@ -56,7 +153,7 @@ public class VerifyAccount : MonoBehaviour
         SceneManager.UnloadSceneAsync("VerifyAccount");
     }
 
-    public void VerifyAccountOnPlayFab()
+    public void VerifyAccountOnPlayFab() // No longer used
     {
         PlayFabClientAPI.ExecuteCloudScript(new ExecuteCloudScriptRequest()
         {
@@ -64,7 +161,7 @@ public class VerifyAccount : MonoBehaviour
             FunctionParameter = new { verifiedValue = 1 }, // The parameter provided to your function
             GeneratePlayStreamEvent = true, // Optional - Shows this event in PlayStream
         }, result => {
-            SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
+            SceneManager.LoadSceneAsync(levelToLoad, LoadSceneMode.Additive);
             Alerts a = new Alerts();
             StartCoroutine(a.LoadSceneAsync("Successful Verification", "Your account is now successfully verified. Welcome to TORAD ninja!"));
             CloseVerificationPanel(false);
