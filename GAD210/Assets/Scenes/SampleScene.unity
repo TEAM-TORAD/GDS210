@@ -190,7 +190,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Scene Loaded
+  m_Text: Player Logged In successfully
 --- !u!222 &376203049
 CanvasRenderer:
   m_ObjectHideFlags: 0

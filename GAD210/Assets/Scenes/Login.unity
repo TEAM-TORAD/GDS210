@@ -611,6 +611,7 @@ MonoBehaviour:
   loginPanel: {fileID: 1179059725}
   username: {fileID: 403465360}
   password: {fileID: 737979914}
+  submissionButton: {fileID: 237259797}
   levelToLoad: SampleScene
 --- !u!4 &535271469
 Transform:

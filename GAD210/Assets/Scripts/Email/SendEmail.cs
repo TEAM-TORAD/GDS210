@@ -11,12 +11,15 @@ using TMPro;
 // https://www.youtube.com/watch?v=hw0XvUuzAcA
 public class SendEmail : MonoBehaviour
 {
-    public TMP_InputField bodyMessage;
-    //public TMP_InputField recipientEmail;
+    [HideInInspector]
+    public string recipientEmail, subject, message;
 
-    public string recipientEmail;
+    public void RegistrationEmail()
+    {
+        SendEmailStandard(recipientEmail, subject, message);
+    }
 
-    public void SendEmailStandard( string recipient, string subject, string message, string password)
+    public void SendEmailStandard( string recipient, string subject, string message)
     {
         MailMessage mail = new MailMessage();
         SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
@@ -24,6 +27,7 @@ public class SendEmail : MonoBehaviour
         smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
         smtpServer.UseDefaultCredentials = false;
         smtpServer.Port = 587; // 25 587 465 2525
+        smtpServer.EnableSsl = true; 
 
         mail.From = new MailAddress("team.torad@gmail.com");
         mail.To.Add(new MailAddress(recipient));
@@ -31,7 +35,7 @@ public class SendEmail : MonoBehaviour
         mail.Subject = subject;
         mail.Body = message;
 
-        smtpServer.Credentials = new System.Net.NetworkCredential("team.torad@gmail.com", password);
+        smtpServer.Credentials = new System.Net.NetworkCredential("team.torad@gmail.com", "Ts8hS6dFneAE");
         ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
             return true;
