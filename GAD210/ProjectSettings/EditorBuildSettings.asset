@@ -26,4 +26,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/VerifyAccount.unity
     guid: 99349093cab73484ba4ec02a4d6338b9
+  - enabled: 1
+    path: Assets/Scenes/Village_GreyBox.unity
+    guid: 27329047b6a59a54e851673a7255ccd2
+  - enabled: 1
+    path: Assets/Scenes/Multiplayer.unity
+    guid: b0a81d7e4647ee7468326a8af5edc1f6
   m_configObjects: {}

@@ -453,7 +453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   code: {fileID: 403465360}
-  levelToLoad: SampleScene
+  levelToLoad: Multiplayer
 --- !u!4 &535271469
 Transform:
   m_ObjectHideFlags: 0

@@ -75,6 +75,7 @@ public class Login : MonoBehaviour
                 }
                 else
                 {
+                    SceneManager.UnloadSceneAsync("Login");
                     SceneManager.LoadSceneAsync(levelToLoad, LoadSceneMode.Additive);
                 }
             }
