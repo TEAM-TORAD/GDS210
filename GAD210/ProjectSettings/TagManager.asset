@@ -9,6 +9,7 @@ TagManager:
   - AlertMessage
   - StartPanel
   - Ground
+  - FX
   layers:
   - Default
   - TransparentFX

@@ -1,19 +1,20 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
-    - Character_Movement
     - CloseAlertsScene
     - Login
     - MPManager
     - NinjaVillageServer
+    - PlayerAttacks
     - Register
     - ResetPassword
     - Script.Movements.PlayerMovement
     - SendEmail
+    - SpinObject
     - SyncScript
-    - Third_Person_Camera
     - UIManager
     - VerifyAccount
+    - WeaponManager
     Cinemachine.dll:
     - Cinemachine.CinemachineBrain
     - Cinemachine.CinemachineCollider
@@ -199,6 +200,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 54
       Script: {instanceID: 0}
+    - Class: 64
+      Script: {instanceID: 0}
     - Class: 65
       Script: {instanceID: 0}
     - Class: 74
@@ -233,6 +236,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 11644}
     - Class: 114
       Script: {instanceID: 11752}
+    - Class: 114
+      Script: {instanceID: 12032}
     - Class: 114
       Script: {instanceID: 12050}
     - Class: 114
@@ -299,6 +304,12 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14846}
     - Class: 114
       Script: {instanceID: 14898}
+    - Class: 114
+      Script: {instanceID: 37460}
+    - Class: 114
+      Script: {instanceID: 39144}
+    - Class: 114
+      Script: {instanceID: 65970}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1186,12 +1197,6 @@ ScriptsOnlyBuild:
     className: CullArea
   - hash:
       serializedVersion: 2
-      Hash: fa1489f81a5cbf12af0f0eaccc6f5df0
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Third_Person_Camera
-  - hash:
-      serializedVersion: 2
       Hash: b25c2463ba9144686d18d7707733226b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -1556,12 +1561,6 @@ ScriptsOnlyBuild:
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
     className: CinemachinePipeline
-  - hash:
-      serializedVersion: 2
-      Hash: 167462981092c32a7947ebe940859e9b
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Character_Movement
   - hash:
       serializedVersion: 2
       Hash: d329540117e6b6c523bded68046af505
@@ -2600,6 +2599,24 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 028d93d9e467bb1939f8a57d11e22ab1
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: WeaponManager
+  - hash:
+      serializedVersion: 2
+      Hash: 11bc6911c8db2efeb217d28dc46b9a8f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlayerAttacks
+  - hash:
+      serializedVersion: 2
+      Hash: afc5b93a7b192de2dcb3832fe35a5c7e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SpinObject
   platform: 5
   scenePathNames:
   - Assets/Scenes/Master.unity
@@ -2611,4 +2628,4 @@ ScriptsOnlyBuild:
   - Assets/Scenes/VerifyAccount.unity
   - Assets/Scenes/Village_GreyBox.unity
   - Assets/Scenes/Multiplayer.unity
-  playerPath: C:/Apps/Unity Projects/GPG210/GDS210/Latest Build/GAD210.exe
+  playerPath: C:/Users/tomto/Documents/GitHubRepos/GDS210/Build1.1/GAD210.exe
