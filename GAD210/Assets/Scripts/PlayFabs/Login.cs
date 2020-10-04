@@ -14,6 +14,29 @@ public class Login : MonoBehaviour
     public TMP_InputField password;
     public Button submissionButton;
     public string levelToLoad;
+
+    private void Start()
+    {
+        username.ActivateInputField();
+    }
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            if(username.isFocused)
+            {
+                password.ActivateInputField();
+            }
+            else
+            {
+                username.ActivateInputField();
+            }
+        }
+        if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return) && submissionButton.IsActive() ) 
+        {
+            LoginUser();
+        }
+    }
     public void LoginUser()
     {
         submissionButton.interactable = false;

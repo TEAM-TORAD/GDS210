@@ -454,6 +454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   code: {fileID: 403465360}
   levelToLoad: Multiplayer
+  submissionButton: {fileID: 237259797}
 --- !u!4 &535271469
 Transform:
   m_ObjectHideFlags: 0

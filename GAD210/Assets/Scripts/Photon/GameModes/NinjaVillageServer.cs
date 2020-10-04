@@ -30,6 +30,13 @@ public class NinjaVillageServer : MonoBehaviourPun, IPunObservable
     // Update is called once per frame
     void Update()
     {
+        if(photonView.IsMine)
+        {
+            if (Input.GetKey("escape"))
+            {
+                Application.Quit();
+            }
+        }
         // If the player hasn't spawned, count down and spawn the player when the timer reaches 0.
         if(!hasPlayerSpawned)
         {

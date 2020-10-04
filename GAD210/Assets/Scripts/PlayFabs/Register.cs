@@ -18,6 +18,8 @@ public class Register : MonoBehaviour
 
     public static Register register;
 
+    public Button submissionButton;
+
     private void Awake()
     {
         if(register == null)
@@ -27,6 +29,36 @@ public class Register : MonoBehaviour
         else
         {
             Destroy(this);
+        }
+    }
+    private void Start()
+    {
+        username.ActivateInputField();
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (username.isFocused)
+            {
+                email.ActivateInputField();
+            }
+            else if(email.isFocused)
+            {
+                password.ActivateInputField();
+            }
+            else if (password.isFocused)
+            {
+                confirmPassword.ActivateInputField();
+            }
+            else
+            {
+                username.ActivateInputField();
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return) && submissionButton.IsActive())
+        {
+            CreateAccount();
         }
     }
     private string GenerateVerificationCode()
@@ -79,7 +111,9 @@ public class Register : MonoBehaviour
             // If the player was successfully logged in, set the verification code and set the status of the player to 'verified = false'
             SetRegistrationUserData(verCode);
         }, error => {
-            Alerts newAlert = new Alerts(); StartCoroutine(newAlert.LoadSceneAsync("Error!", error.ErrorMessage));
+            Alerts newAlert = new Alerts(); 
+            StartCoroutine(newAlert.LoadSceneAsync("Error!", error.ErrorMessage));
+            submissionButton.interactable = true;
         });
     }
     // Build the request object and access the API
@@ -112,10 +146,12 @@ public class Register : MonoBehaviour
 
     public void CreateAccount()
     {
+        submissionButton.interactable = false;
         if (password.text.Length < 3 || confirmPassword.text.Length < 3)
         {
             Alerts a = new Alerts();
             StartCoroutine(a.LoadSceneAsync("Short Password", "The password needs to be at lest 3 characters long."));
+            submissionButton.interactable = true;
         }
         else
         {
@@ -134,13 +170,16 @@ public class Register : MonoBehaviour
                     SetVerificationCode(username.text, confirmPassword.text, verCode);
 
                 }, error => {
-                    Debug.Log("Error generating and setting up a verification code.");
+                    Alerts a = new Alerts();
+                    StartCoroutine(a.LoadSceneAsync("Error!", error.ErrorMessage));
+                    submissionButton.interactable = true;
                 });
             }
             else
             {
                 Alerts a = new Alerts();
                 StartCoroutine(a.LoadSceneAsync("Password missmatch", "The password in the second field does not match the password in the first field."));
+                submissionButton.interactable = true;
             }
         }
     }

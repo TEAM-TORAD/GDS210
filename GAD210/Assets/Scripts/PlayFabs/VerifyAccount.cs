@@ -11,21 +11,40 @@ public class VerifyAccount : MonoBehaviour
 {
     public TMP_InputField code;
     public string levelToLoad = "";
+    public Button submissionButton;
+
+
+    private void Start()
+    {
+        code.ActivateInputField();
+    }
+    private void Update()
+    {
+        
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return) && submissionButton.IsActive())
+        {
+            SubmitCode();
+        }
+    }
+
     public void SubmitCode()
     {
-        if(code.text.Length > 0)
+        submissionButton.interactable = false;
+        if (code.text.Length > 0)
         {
             PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest(), GetVerificationCodeUserData,
             error =>
             {
                 Alerts a = new Alerts();
                 StartCoroutine(a.LoadSceneAsync("Error!", error.ErrorMessage));
+                submissionButton.interactable = true;
             });
         }
         else
         {
             Alerts a = new Alerts();
             StartCoroutine(a.LoadSceneAsync("Error!", "You need to enter the verification-code that was sent to the email you entered when registring this account. Check your junkmail if you can't find it."));
+            submissionButton.interactable = true;
         }
     }
     void VerifyAccountUpdateUserData()
@@ -44,7 +63,9 @@ public class VerifyAccount : MonoBehaviour
             SceneManager.UnloadSceneAsync("VerifyAccount");
         },
         error => {
-            Alerts newAlert = new Alerts(); StartCoroutine(newAlert.LoadSceneAsync("Error veryfying account!", error.ErrorMessage));
+            Alerts newAlert = new Alerts(); 
+            StartCoroutine(newAlert.LoadSceneAsync("Error veryfying account!", error.ErrorMessage));
+            submissionButton.interactable = true;
         });
     }
     void GetVerificationCodeUserData(GetAccountInfoResult initResult)
@@ -67,6 +88,7 @@ public class VerifyAccount : MonoBehaviour
                 {
                     Alerts a = new Alerts();
                     StartCoroutine(a.LoadSceneAsync("Verification code missmatch!", "The code you entered is incorrect! Please check your email for a verification code."));
+                    submissionButton.interactable = true;
                 }
             }
         }, (error) => {
@@ -74,24 +96,6 @@ public class VerifyAccount : MonoBehaviour
             Alerts a = new Alerts();
             StartCoroutine(a.LoadSceneAsync("Error checking account verification!", error.ErrorMessage));
         });
-    }
-    void OnGetStatistics(GetPlayerStatisticsResult result)
-    {
-        foreach (var eachStat in result.Statistics)
-        {
-            if (eachStat.StatisticName == "verification code")
-            {
-                if (eachStat.Value.ToString() == code.text)
-                {
-                    VerifyAccountOnPlayFab();
-                }
-                else
-                {
-                    Alerts a = new Alerts();
-                    StartCoroutine(a.LoadSceneAsync("Error!", "The code you entered is incorrect!"));
-                }
-            }
-        }
     }
     public void ResendCode()
     {
@@ -136,6 +140,7 @@ public class VerifyAccount : MonoBehaviour
 
                 Alerts a = new Alerts();
                 StartCoroutine(a.LoadSceneAsync("Error checking account verification!", error.ErrorMessage));
+                submissionButton.interactable = true;
             });
         },
         error =>
@@ -151,24 +156,5 @@ public class VerifyAccount : MonoBehaviour
     {
         UIManager.startPanel.SetActive(openStartPanel);
         SceneManager.UnloadSceneAsync("VerifyAccount");
-    }
-
-    public void VerifyAccountOnPlayFab() // No longer used
-    {
-        PlayFabClientAPI.ExecuteCloudScript(new ExecuteCloudScriptRequest()
-        {
-            FunctionName = "SetVerificationCode", // Arbitrary function name (must exist in your uploaded cloud.js file)
-            FunctionParameter = new { verifiedValue = 1 }, // The parameter provided to your function
-            GeneratePlayStreamEvent = true, // Optional - Shows this event in PlayStream
-        }, result => {
-            SceneManager.LoadSceneAsync(levelToLoad, LoadSceneMode.Additive);
-            Alerts a = new Alerts();
-            StartCoroutine(a.LoadSceneAsync("Successful Verification", "Your account is now successfully verified. Welcome to TORAD ninja!"));
-            CloseVerificationPanel(false);
-        }, error => {
-            Alerts newAlert = new Alerts(); 
-            StartCoroutine(newAlert.LoadSceneAsync("Error verifying account!", error.ErrorMessage + " \nPlease copy this error message and send it to team.torad@gmail.com along with your username. \n We appologise for any inconvenience."));
-            CloseVerificationPanel(true);
-        });
     }
 }

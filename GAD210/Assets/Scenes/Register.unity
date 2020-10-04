@@ -664,6 +664,7 @@ MonoBehaviour:
   password: {fileID: 737979914}
   confirmPassword: {fileID: 1146419194}
   email: {fileID: 1763299353}
+  submissionButton: {fileID: 237259797}
 --- !u!4 &535271469
 Transform:
   m_ObjectHideFlags: 0
