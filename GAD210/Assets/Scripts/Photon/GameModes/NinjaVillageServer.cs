@@ -13,28 +13,49 @@ public class NinjaVillageServer : MonoBehaviourPun, IPunObservable
     bool hasPlayerSpawned = false;
     public float spawnTime = 3;
     public Transform spawnPoint;
+    public ServerEvents serverEvents;
+
 
     public GameObject lobbyCamera;
     public TMP_Text spawnCountdown;
     // Start is called before the first frame update
     void Start()
     {
+        serverEvents = GetComponent<ServerEvents>();
         if(photonView.IsMine)
         {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             lobbyCamera.SetActive(true);
             timer = spawnTime;
             hasPlayerSpawned = false;
         }
     }
-
+    private void ChangeCursorVisibility()
+    {
+        if(Cursor.lockState == CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
         if(photonView.IsMine)
         {
-            if (Input.GetKey("escape"))
+            if (Input.GetKey(KeyCode.Escape))
             {
                 Application.Quit();
+            }
+            if(Input.GetKeyDown(KeyCode.Tab))
+            {
+                ChangeCursorVisibility();
             }
         }
         // If the player hasn't spawned, count down and spawn the player when the timer reaches 0.
