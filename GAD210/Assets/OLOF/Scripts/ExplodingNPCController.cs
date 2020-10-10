@@ -11,7 +11,7 @@ public class ExplodingNPCController : MonoBehaviour
     private Rigidbody RB;
     private Health health;
 
-    //private AudioSource audio; // not currently used
+    private AudioSource audio;
 
     // Public variables
     public AudioClip footstep, explosion;
@@ -23,7 +23,7 @@ public class ExplodingNPCController : MonoBehaviour
     // Handled by logic
     [HideInInspector]
     public bool aware;
-    //private float velocity; // not currently used
+    private float velocity;
     private int patrolIndex = 0;
     [HideInInspector]
     public bool isAttacking = false, isTakingDamage = false;
@@ -35,7 +35,7 @@ public class ExplodingNPCController : MonoBehaviour
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         RB = GetComponent<Rigidbody>();
-        //audio = GetComponent<AudioSource>(); // not currently used
+        audio = GetComponent<AudioSource>();
         health = GetComponent<Health>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         agent.SetDestination(patrolPoints[patrolIndex].position);
@@ -46,10 +46,10 @@ public class ExplodingNPCController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //velocity = RB.velocity.magnitude; // not currently used
+        velocity = RB.velocity.magnitude;
         animator.SetBool("Moving", true);
         if (Input.GetKeyDown(KeyCode.B)) Die();
-        if(!isTakingDamage && !isAttacking)
+        if (!isTakingDamage && !isAttacking)
         {
             if (!aware)
             {
@@ -83,7 +83,7 @@ public class ExplodingNPCController : MonoBehaviour
                 }
             }
         }
-        
+
     }
     public void Explode()
     {
@@ -94,13 +94,13 @@ public class ExplodingNPCController : MonoBehaviour
         Debug.Log(transform.position + " " + explosionCenter);
         foreach (Collider c in colliders)
         {
-            
+
             //Rigidbody rb = c.transform.GetComponent<Rigidbody>();
-            Rigidbody rb =  c.attachedRigidbody;
+            Rigidbody rb = c.attachedRigidbody;
             if (rb != null)
             {
-                rb.AddExplosionForce(explosionForce, explosionCenter, explosionRadius , 3.0f, ForceMode.Impulse);
-                if(c.transform.CompareTag("Player"))
+                rb.AddExplosionForce(explosionForce, explosionCenter, explosionRadius, 3.0f, ForceMode.Impulse);
+                if (c.transform.tag == "Player")
                 {
                     Debug.Log("Player hit by explosion!");
                     Health playerHealth = c.GetComponent<Health>();
@@ -109,7 +109,7 @@ public class ExplodingNPCController : MonoBehaviour
 
                     if (playerStamina != null && playerBlock != null && playerHealth != null)
                     {
-                        if(playerBlock.isBlocking)
+                        if (playerBlock.isBlocking)
                         {
                             playerStamina.StaminaDamage(explosionDamageValue);
                         }
@@ -121,7 +121,7 @@ public class ExplodingNPCController : MonoBehaviour
                     else Debug.LogError("Some scripts are missing. Make sure Health.cs, Stamina.cs and PlayerBlock.cs are attatched to the player!");
 
                 }
-                if(c.transform.CompareTag("Enemy"))
+                if (c.transform.tag == "Enemy")
                 {
                     //Effects on enemies
                 }
@@ -136,7 +136,7 @@ public class ExplodingNPCController : MonoBehaviour
     }
     public void Die()
     {
-        if(!isAttacking)
+        if (!isAttacking)
         {
             float velocity = RB.velocity.magnitude;
             if (velocity < 3.5f) velocity = 3.5f;
@@ -155,9 +155,9 @@ public class ExplodingNPCController : MonoBehaviour
         agent.speed = 0.0f;
         health.TakeDamage(value);
     }
-    //void PlayFootstep() // not currently used
-    //{
-    //    audio.clip = footstep;
-    //    audio.Play();
-    //}
+    void PlayFootstep()
+    {
+        audio.clip = footstep;
+        audio.Play();
+    }
 }

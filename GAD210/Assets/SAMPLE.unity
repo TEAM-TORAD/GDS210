@@ -205,6 +205,11 @@ PrefabInstance:
       propertyPath: patrolPoints.Array.data[1]
       value: 
       objectReference: {fileID: 1871062053}
+    - target: {fileID: 1077902340624087867, guid: f427613b871de9149a9deb3de207612d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f427613b871de9149a9deb3de207612d, type: 3}
 --- !u!1001 &124683843
@@ -682,6 +687,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyWasp
       objectReference: {fileID: 0}
+    - target: {fileID: 326084455476646403, guid: cc6d119076a090a4ea1808681253a9cf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 326084455476646404, guid: cc6d119076a090a4ea1808681253a9cf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -833,6 +843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a25c5b6a3fd74a209f57bf624abc7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Filler: {fileID: 0}
   slider: {fileID: 0}
 --- !u!1 &2502934039359521675 stripped
 GameObject:
@@ -852,6 +863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a25c5b6a3fd74a209f57bf624abc7e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Filler: {fileID: 0}
   slider: {fileID: 0}
 --- !u!1001 &4619052685135823566
 PrefabInstance:
@@ -863,17 +875,17 @@ PrefabInstance:
     - target: {fileID: 1394329307045456247, guid: 19274cb6643d3da47885c84b04a66bbd,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000028924346
+      value: 0.000000013188627
       objectReference: {fileID: 0}
     - target: {fileID: 1394329307045456247, guid: 19274cb6643d3da47885c84b04a66bbd,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000033452707
+      value: -0.00000001525342
       objectReference: {fileID: 0}
     - target: {fileID: 1394329307045456247, guid: 19274cb6643d3da47885c84b04a66bbd,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.018189492
+      value: 0.01818946
       objectReference: {fileID: 0}
     - target: {fileID: 1394329307045456247, guid: 19274cb6643d3da47885c84b04a66bbd,
         type: 3}
@@ -898,12 +910,12 @@ PrefabInstance:
     - target: {fileID: 1394329307122080104, guid: 19274cb6643d3da47885c84b04a66bbd,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000027214137
+      value: 0.000000027214137
       objectReference: {fileID: 0}
     - target: {fileID: 1394329307122080104, guid: 19274cb6643d3da47885c84b04a66bbd,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000012147817
+      value: -0.000000012147817
       objectReference: {fileID: 0}
     - target: {fileID: 1394329307122080104, guid: 19274cb6643d3da47885c84b04a66bbd,
         type: 3}
@@ -918,22 +930,22 @@ PrefabInstance:
     - target: {fileID: 1394329307336189367, guid: 19274cb6643d3da47885c84b04a66bbd,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000022078208
+      value: 0.00000002814159
       objectReference: {fileID: 0}
     - target: {fileID: 1394329307336189367, guid: 19274cb6643d3da47885c84b04a66bbd,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000024615167
+      value: -0.00000003137528
       objectReference: {fileID: 0}
     - target: {fileID: 1394329308631833974, guid: 19274cb6643d3da47885c84b04a66bbd,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000031636322
+      value: 0.00000003920806
       objectReference: {fileID: 0}
     - target: {fileID: 1394329308631833974, guid: 19274cb6643d3da47885c84b04a66bbd,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00000003665674
+      value: -0.00000004543005
       objectReference: {fileID: 0}
     - target: {fileID: 1394329308631833974, guid: 19274cb6643d3da47885c84b04a66bbd,
         type: 3}
@@ -1034,10 +1046,11 @@ MonoBehaviour:
   health: 100
   maxHealth: 100
   healthCriticalRunning: 0
-  online: 1
-  healthImagePrefab: {fileID: 1087779095579646935}
-  greyColor: {r: 0, g: 0, b: 0, a: 0}
-  redColor: {r: 0, g: 0, b: 0, a: 0}
+  online: 0
+  healthImagePrefab: {fileID: 3374261763979337793, guid: 007145921cc0f014189dc54f80a8e9e9,
+    type: 3}
+  greyColor: {r: 1, g: 1, b: 1, a: 1}
+  redColor: {r: 0.8962264, g: 0.5707102, b: 0.5707102, a: 1}
 --- !u!114 &6233928987692276520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1056,7 +1069,8 @@ MonoBehaviour:
   gainPerSecond: 1
   online: 1
   usingStamina: 1
-  staminaImagePrefab: {fileID: 2502934039359521675}
+  staminaImagePrefab: {fileID: 3374261763979337793, guid: 9856798e67a879341b83c6d30db45c2c,
+    type: 3}
 --- !u!1001 &6448873600203203286
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1190,12 +1204,26 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6503818755789535248}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.010327504
-  m_Height: 0.19743292
+  m_Height: 0.16
   m_Direction: 1
-  m_Center: {x: 0.0050169504, y: 0.09838865, z: -0.0053512882}
+  m_Center: {x: 0.0050169504, y: 0.115, z: -0.0053512882}
+--- !u!114 &6503818755789535250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6503818755789535248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 269e6f53c68109a4ab943877ff9aa592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regularDamage: 15
+  powerDamage: 25
 --- !u!1 &6503818757128954998 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1898301614190782136, guid: 19274cb6643d3da47885c84b04a66bbd,
