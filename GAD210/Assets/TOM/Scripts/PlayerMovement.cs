@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveDirection;
     private float turnSmoothTime;
     float turnSmoothVelocity;
+    private PlayerJump jump;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
         playerSpeed = 6;
         // Rotation Smoothing Settings
         turnSmoothTime = 0.1f;
+        jump = GetComponent<PlayerJump>();
     }
     public void FixedUpdate()
     {
@@ -57,21 +59,52 @@ public class PlayerMovement : MonoBehaviour
     {
         if (moveDirection.magnitude > 0.1)
         {
-            currentSpeed += 1f;
+
+
+
+            if (currentSpeed < 1f)
+            {
+                currentSpeed += .03f;
+
+            }
+
+            if (currentSpeed > 1f)
+            {
+                currentSpeed += .01f;
+
+            }
 
             if (currentSpeed > 2f)
             {
                 currentSpeed = 2f;
+
             }
 
         }
-        else
+        else if (moveDirection.magnitude < 0.1f)
         {
-            currentSpeed = moveDirection.magnitude;
+            if (currentSpeed > 0)
+            {
+
+                if (jump.isGrounded)
+                {
+                    currentSpeed -= 0.05f;
+                }
+                else
+                {
+                    currentSpeed -= 0.001f;
+                }
+            }
+            if (currentSpeed < 0.001)
+            {
+                currentSpeed = 0f;
+            }
+
         }
+
     }
 
-    
+
 
 }
 

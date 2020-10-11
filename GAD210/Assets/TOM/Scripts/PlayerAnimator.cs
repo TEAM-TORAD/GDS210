@@ -19,7 +19,5 @@ public class PlayerAnimator : MonoBehaviour
     {
         anim.SetFloat("PlayerSpeed", player.currentSpeed);
         anim.SetFloat("PlayerHeight", player.GetComponent<PlayerJump>().currentHeight);
-
-        anim.SetBool("isGrounded", playerJump.isGrounded);
     }
 }

@@ -45,6 +45,7 @@ public class Stamina : MonoBehaviour
             {
                 staminaImage.fillAmount = (float)stamina / maxStamina;
             }
+
         
     }
 
