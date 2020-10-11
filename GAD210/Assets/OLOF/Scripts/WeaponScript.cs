@@ -45,9 +45,9 @@ public class WeaponScript : MonoBehaviour
                     }
                     else
                     {
-                        if (c.attachedRigidbody != null) Debug.Log("Player hit (tag on attachedRigidbody) " + c.attachedRigidbody.tag + ". Name " + c.attachedRigidbody.name);
-                        else if (c.transform.tag != null) Debug.Log("Player hit (tag on transform) " + c.transform.tag);
-                        else Debug.Log("Player hit (name) " + c.transform.name);
+                        if (c.attachedRigidbody != null) Debug.Log("Player hit (tag on attachedRigidbody) " + c.attachedRigidbody.tag + ". Name " + c.attachedRigidbody.name); // Debug Test
+                        else if (c.transform.tag != null) Debug.Log("Player hit (tag on transform) " + c.transform.tag); // Debug test
+                        else Debug.Log("Player hit (name) " + c.transform.name); // Debug test
                     }
                 }
             }

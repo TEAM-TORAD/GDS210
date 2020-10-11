@@ -17,7 +17,7 @@ public class Health : MonoBehaviour
 
     void Start()
     {
-        if (transform.tag == "Player")
+        if (transform.CompareTag("Player"))
         {
             healthPanel = GameObject.FindGameObjectWithTag("HealthPanel").transform;
             GameObject healthImageObject = Instantiate(healthImagePrefab, healthPanel);
@@ -42,7 +42,7 @@ public class Health : MonoBehaviour
     {
         health = _health;
         maxHealth = _maxHealth;
-        if (transform.tag == "Player")
+        if (transform.CompareTag("Player"))
         {
             healthImage.fillAmount = (float)health / maxHealth;
             if ((float)health / maxHealth < 0.2f) healthCriticalRunning = false;
@@ -75,19 +75,19 @@ public class Health : MonoBehaviour
         {
             // Take damage
             Debug.Log(transform.name + " took " + value + " in damage.");
-            if (transform.tag == "Player")
+            if (transform.CompareTag("Player"))
             {
                 if ((float)health / maxHealth < 0.2f)
                 {
                     healthCriticalRunning = true;
                 }
             }
-            else if (transform.tag == "ExplodingNPC")
+            else if (transform.CompareTag("ExplodingNPC"))
             {
 
             }
         }
-        if (transform.tag == "Player")
+        if (transform.CompareTag("Player"))
         {
             healthImage.fillAmount = (float)health / maxHealth;
         }

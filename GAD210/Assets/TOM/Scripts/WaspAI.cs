@@ -38,7 +38,8 @@ public class WaspAI : MonoBehaviour
     private bool initialGo = false; //AI cannot function until it is initialized.
     private bool go = true; //An on/off override variable
     private Vector3 lastVisTargetPos; //Monitor target position if we lose sight of target. provides semi-intelligent AI.
-    CharacterController characterController; //CC used for enemy movement and etc.
+    //CharacterController characterController; //CC used for enemy movement and etc.
+    Rigidbody characterController;
     private bool playerHasBeenSeen = false; //An enhancement to how the AI functions prior to visibly seeing the target. Brings AI to life when target is close, but not visible.
     private bool enemyCanAttack = false; //Used to determine if the enemy is within range to attack, regardless of moving or not.
     private bool enemyIsAttacking = false; //An attack interuption method.
@@ -61,6 +62,8 @@ public class WaspAI : MonoBehaviour
     private bool smoothAttackRangeBuffer = false; //for runAway AI to not be so messed up by their visual radius and attack range.
     public Animator anim;
 
+    public float distance;
+    public Vector3 direction;
 
     //---Starting/Initializing functions---//
     void Start()
@@ -72,7 +75,7 @@ public class WaspAI : MonoBehaviour
         gravity = 20.0f;
         estimateElevation = false;
         StartCoroutine(Initialize()); //co-routine is used incase you need to interupt initiialization until something else is done.
-
+       
     }
 
     IEnumerator Initialize()
@@ -81,7 +84,7 @@ public class WaspAI : MonoBehaviour
         {
             estGravityTimer = Time.time;
         }
-        characterController = gameObject.GetComponent<CharacterController>();
+        characterController = gameObject.GetComponent<Rigidbody>();
         initialGo = true;
         yield return null;
     }
@@ -94,7 +97,7 @@ public class WaspAI : MonoBehaviour
         if(!on)
         {
             //Simulate gravity
-            characterController.SimpleMove(new Vector3(0, -1 * Time.deltaTime, 0));
+            characterController.MovePosition(new Vector3(0, -1 * Time.deltaTime, 0));
         }
         else if (!initialGo)
         {
@@ -103,6 +106,17 @@ public class WaspAI : MonoBehaviour
         else
         {
             AIFunctionality();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        distance = Vector3.Distance(transform.position, target.position);
+        if (distance < 5)
+        {
+            transform.LookAt(target);
+            characterController.AddForce(direction * Time.fixedDeltaTime);
+            Debug.Log("Moving towards player override");
         }
     }
 
@@ -448,7 +462,8 @@ public class WaspAI : MonoBehaviour
         {
             direction.y -= gravity;
         }
-        characterController.Move(direction * Time.deltaTime);
+        transform.LookAt(target);
+        characterController.AddRelativeForce(direction * Time.deltaTime);
     }
 
     //continuous gravity checks
@@ -584,7 +599,8 @@ public class WaspAI : MonoBehaviour
 
         if (!estimateElevation || estimateElevation && estHeight >= 0.0f)
         {
-            characterController.Move(direction * Time.deltaTime);
+            transform.LookAt(target);
+            characterController.AddRelativeForce(direction * Time.deltaTime);
         }
     }
 
