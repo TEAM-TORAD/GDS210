@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
+<<<<<<< HEAD
   tags: []
+=======
+  tags:
+  - Ground
+  - HealthPanel
+  - StaminaPanel
+  - ExplodingNPC
+  - WaspNPC
+  - DoNotRegisterCollision
+>>>>>>> Test2
   layers:
   - Default
   - TransparentFX
@@ -13,8 +23,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Player
+  - Wasp
   - 
   - 
   - 

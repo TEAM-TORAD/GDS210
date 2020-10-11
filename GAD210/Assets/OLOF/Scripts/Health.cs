@@ -57,13 +57,18 @@ public class Health : MonoBehaviour
         {
             health = 0;
             // Death effect
-            if(transform.tag == "Player")
+            if(transform.CompareTag("Player"))
             {
 
             }
-            if (transform.tag == "ExplodingNPC")
+            if (transform.CompareTag("ExplodingNPC"))
             {
                 transform.GetComponent<ExplodingNPCController>().Die();
+            }
+            if(transform.CompareTag("WaspNPC"))
+            {
+                //transform.GetComponentInChildren<Animator>().SetTrigger("Die");
+                transform.GetComponent<WaspAI>().Die();
             }
         }
         else

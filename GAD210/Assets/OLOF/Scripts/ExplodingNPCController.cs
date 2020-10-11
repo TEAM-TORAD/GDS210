@@ -99,7 +99,7 @@ public class ExplodingNPCController : MonoBehaviour
             Rigidbody rb = c.attachedRigidbody;
             if (rb != null)
             {
-                rb.AddExplosionForce(explosionForce, explosionCenter, explosionRadius, 3.0f, ForceMode.Impulse);
+                rb.AddExplosionForce(explosionForce, explosionCenter, explosionRadius, 1.0f, ForceMode.Impulse);
                 if (c.transform.tag == "Player")
                 {
                     Debug.Log("Player hit by explosion!");
@@ -139,21 +139,24 @@ public class ExplodingNPCController : MonoBehaviour
         if (!isAttacking)
         {
             float velocity = RB.velocity.magnitude;
-            if (velocity < 3.5f) velocity = 3.5f;
+            if (velocity < 2.5f) velocity = 2.5f;
 
             transform.GetComponentInChildren<SkinnedMeshRenderer>().material = deadMaterial;
             agent.enabled = false;
             animator.enabled = false;
             RB.constraints = RigidbodyConstraints.None;
-            RB.AddForce(transform.forward * velocity * .5f, ForceMode.Impulse);
+            RB.AddForce(transform.forward * velocity, ForceMode.Impulse);
         }
     }
     public void TakeDamage(int value)
     {
-        isTakingDamage = true;
-        animator.SetTrigger("TakeDamage");
-        agent.speed = 0.0f;
-        health.TakeDamage(value);
+        if(!isAttacking)
+        {
+            isTakingDamage = true;
+            animator.SetTrigger("TakeDamage");
+            agent.speed = 0.0f;
+            health.TakeDamage(value);
+        }
     }
     void PlayFootstep()
     {
