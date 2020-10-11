@@ -10,6 +10,8 @@ public class IgnorePlayerCollision : MonoBehaviour
     {
         CC = GetComponent<CharacterController>();
         CC.detectCollisions = false;
+        //Ignore the collisions between Player layer and Wasp layer
+        Physics.IgnoreLayerCollision(8, 9);
     }
 
     // Update is called once per frame

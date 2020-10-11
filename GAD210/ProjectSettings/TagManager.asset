@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - HealthPanel
+  - StaminaPanel
+  - ExplodingNPC
+  - WaspNPC
+  - DoNotRegisterCollision
   layers:
   - Default
   - TransparentFX
@@ -14,8 +19,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Player
+  - Wasp
   - 
   - 
   - 

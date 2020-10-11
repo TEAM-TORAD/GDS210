@@ -72,6 +72,7 @@ public class WaspAI : MonoBehaviour
         gravity = 20.0f;
         estimateElevation = false;
         StartCoroutine(Initialize()); //co-routine is used incase you need to interupt initiialization until something else is done.
+
     }
 
     IEnumerator Initialize()
@@ -90,7 +91,12 @@ public class WaspAI : MonoBehaviour
     //---Main Functionality---//
     void Update()
     {
-        if (!on || !initialGo)
+        if(!on)
+        {
+            //Simulate gravity
+            characterController.SimpleMove(new Vector3(0, -1 * Time.deltaTime, 0));
+        }
+        else if (!initialGo)
         {
             return;
         }
@@ -582,5 +588,13 @@ public class WaspAI : MonoBehaviour
         }
     }
 
+    // Custom functions by team TORAD
+    public void Die()
+    {
+        anim.SetTrigger("Die");
+        on = false;
+        canFly = false;
+        transform.GetComponent<CapsuleCollider>().enabled = false;
+    }
 }
 
