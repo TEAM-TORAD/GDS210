@@ -1,4 +1,0 @@
-BUGLOG
-Insert known bugs bellow
-
-1. Currently a heap of console errors from Olofs scripts, this is an import issue, and not knowing how to setup the files, related to HEALTH, and EXPLODINGNPC
