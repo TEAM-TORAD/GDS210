@@ -21,7 +21,7 @@ public class PlayerJump : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         jumpHeight = 300f;
-        delay = 0.1f;
+        delay = 0.45f;
     }
 
     public void Update()
@@ -45,16 +45,19 @@ public class PlayerJump : MonoBehaviour
     }
     private void Jump()
     {
-        float dirSpeed = rb.velocity.z;
-        float newJumpDistance = jumpDistance * dirSpeed;
-         rb.AddForce(Vector3.up * jumpHeight, ForceMode.Force);
-         rb.AddForce(Vector3.forward * newJumpDistance, ForceMode.Force);
+        if(isGrounded)
+        {
+            float dirSpeed = rb.velocity.z;
+            float newJumpDistance = jumpDistance * dirSpeed;
+            rb.AddForce(Vector3.up * jumpHeight, ForceMode.Force);
+            rb.AddForce(Vector3.forward * newJumpDistance, ForceMode.Force);
+        }
     }
 
     public void GroundCheck()
     {
         Vector3 downVector = transform.TransformDirection(Vector3.down) * 100f;
-        Debug.DrawRay(transform.position, downVector, Color.green);
+        // Debug.DrawRay(transform.position, downVector, Color.green);
 
         if (Physics.Raycast(transform.position, (downVector), out RaycastHit hit))
         {
@@ -63,12 +66,12 @@ public class PlayerJump : MonoBehaviour
             if (hit.distance > 0.1f)
             {
                 isGrounded = false;
-                
+                anim.SetBool("isGrounded", false);
             }
             if (hit.distance < 0.1f)
             {
                 isGrounded = true;
-                
+                anim.SetBool("isGrounded", true);
             }
         }
     }
